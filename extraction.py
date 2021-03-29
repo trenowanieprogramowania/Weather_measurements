@@ -1,4 +1,4 @@
-from pprint import pprint
+# from pprint import pprint
 import requests
 import pandas as pd
 
@@ -60,19 +60,16 @@ def generate_data_frame():
 
             # current_data.collected_data.append(mean_of_data)
 
-        # list_of_lists.append(current_data)
+        list_of_lists.append(current_data.collected_data)
 
     name_of_columns = ["id of station", "id of sensor", "name of chemical substance", "mean value"]
 
-    outcome_frame = pd.DataFrame(data=list_of_lists, columns=name_of_columns)
-
-    print("*******************************************************************8")
+    outcome_frame = pd.DataFrame(data=list_of_lists) #, columns=name_of_columns)
 
     return outcome_frame
 
 
 print(generate_data_frame())
-
 
 
 """"
