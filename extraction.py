@@ -1,4 +1,4 @@
-# from pprint import pprint
+from pprint import pprint
 import requests
 import pandas as pd
 
@@ -21,11 +21,11 @@ def generate_data_frame():
     json_of_all_stations = requests.get(url_of_stations).json()
 
     for currently_analysed_station in json_of_all_stations:
+        # pprint(currently_analysed_station)
+
         current_data = SingleData()
 
         id_of_station = currently_analysed_station["id"]
-
-        # print(id_of_station)
 
         current_data.collected_data.append(id_of_station)
 
@@ -34,7 +34,7 @@ def generate_data_frame():
         list_of_sensors_of_station = requests.get(url_of_single_station).json()
 
         for currently_analysed_sensor in list_of_sensors_of_station:
-            # pprint(currently_analysed_sensor)
+            pprint(currently_analysed_sensor)
 
             id_of_sensor = currently_analysed_sensor["id"]
 
