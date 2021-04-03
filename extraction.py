@@ -1,75 +1,61 @@
 from pprint import pprint
+
 import requests
 import pandas as pd
 
-
-class SingleData:
-    collected_data = []
-
-    def __init__(self):
-        self.collected_data = []
+from measurement import Measurement
 
 
 def generate_data_frame():
+    list_of_objects = []
+
     url_base = "http://api.gios.gov.pl/pjp-api/rest/"
     url_of_stations = url_base + "station/findAll"
     url_of_single_station_base = url_base + "station/sensors/"
     url_of_single_sensor_base = url_base + "data/getData/"
-
-    list_of_lists = []
 
     json_of_all_stations = requests.get(url_of_stations).json()
 
     for currently_analysed_station in json_of_all_stations:
         # pprint(currently_analysed_station)
 
-        current_data = SingleData()
-
-        id_of_station = currently_analysed_station["id"]
-
-        current_data.collected_data.append(id_of_station)
-
-        url_of_single_station = url_of_single_station_base + str(id_of_station)
-
-        list_of_sensors_of_station = requests.get(url_of_single_station).json()
+        list_of_sensors_of_station = requests.get(url_of_single_station_base
+                                                  + str(currently_analysed_station["id"])).json()
 
         for currently_analysed_sensor in list_of_sensors_of_station:
             pprint(currently_analysed_sensor)
 
-            id_of_sensor = currently_analysed_sensor["id"]
+            list_of_measurements_of_single_sensor = requests.get(url_of_single_sensor_base
+                                                                 + str(currently_analysed_sensor["id"])).json()
 
-            current_data.collected_data.append(id_of_sensor)
+            for current_measurement in list_of_measurements_of_single_sensor['values']:
+                print(f"currently analysed station: {currently_analysed_station}")
 
-            url_of_single_sensor = url_of_single_sensor_base + str(id_of_sensor)
+                print(f"currently analysed sensor: {currently_analysed_sensor}")
 
-            list_of_measurements_of_single_sensor = requests.get(url_of_single_sensor).json()
+                print(f"current measurement: {current_measurement}")
+                print("***********************************************************************")
 
-            chemical_abbreviation_measured_by_sensor = list_of_measurements_of_single_sensor["key"]
-
-            current_data.collected_data.append(chemical_abbreviation_measured_by_sensor)
-
-            measured_data = list_of_measurements_of_single_sensor["values"]
-            list_of_values = []
-
-            # for current_dictionary in measured_data:
-            #    measured_data.append(current_dictionary["value"])
-
-            # serialized_data = pd.Series(measured_data)
-
-            # mean_of_data = serialized_data.mean()
-
-            # current_data.collected_data.append(mean_of_data)
-
-        list_of_lists.append(current_data.collected_data)
-
-    name_of_columns = ["id of station", "id of sensor", "name of chemical substance", "mean value"]
-
-    outcome_frame = pd.DataFrame(data=list_of_lists) #, columns=name_of_columns)
-
-    return outcome_frame
+                single_sample = Measurement(
+                    date=current_measurement['date'],
+                    value=current_measurement['value'],
+                    id=currently_analysed_station['id'],
+                    stationName=currently_analysed_station['stationName'],
+                    latitude=currently_analysed_station['gegrLat'],
+                    longitude=currently_analysed_station['gegrLon'],
+                    communeName=currently_analysed_station['city']['name']['communeName'],
+                    districtName=currently_analysed_station['city']['name']['districtName'],
+                    provinceName=currently_analysed_station['city']['name']['provinceName'],
+                    addressStreet=currently_analysed_station['addressStreet'],
+                    stationId=currently_analysed_sensor['id'],
+                    paramName=currently_analysed_sensor['param']['paramName'],
+                    paramFomula=currently_analysed_sensor['param']['paramFormula'],
+                    idParam=currently_analysed_sensor['param']['idParam']
+                )
 
 
-print(generate_data_frame())
+
+generate_data_frame()
 
 
 """"
