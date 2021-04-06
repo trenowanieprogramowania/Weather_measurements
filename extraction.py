@@ -6,6 +6,16 @@ import pandas as pd
 from measurement import Measurement
 
 
+def flatten_dictionary(input_dictionary: dict, applied_dictionary: dict):
+    for current_key, current_value in input_dictionary.items():
+        if isinstance(current_value, dict):
+            flatten_dictionary(current_value, applied_dictionary)
+        else:
+            applied_dictionary[current_key] = current_value
+
+    return applied_dictionary
+
+
 def generate_data_frame():
     list_of_objects = []
 
@@ -35,6 +45,12 @@ def generate_data_frame():
 
                 print(f"current measurement: {current_measurement}")
                 print("***********************************************************************")
+
+                alternative_sample = {}
+
+                alternative_sample = flatten_dictionary(current_measurement, alternative_sample)
+                alternative_sample = flatten_dictionary(currently_analysed_sensor, alternative_sample)
+                alternative_sample = flatten_dictionary(currently_analysed_station, alternative_sample)
 
                 if current_measurement['value'] == 0 or currently_analysed_station['gegrLon'] == 0 or \
                         currently_analysed_station['gegrLon'] == 0:
@@ -79,4 +95,7 @@ def generate_data_frame():
                 print('---------------------------------------------------------------------------------------')
 
 
-generate_data_frame()
+
+
+
+# generate_data_frame()
