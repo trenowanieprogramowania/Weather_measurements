@@ -1,23 +1,13 @@
 from pprint import pprint
 
 import requests
-import pandas as pd
 
 from measurement import Measurement
 
 
-def flatten_dictionary(input_dictionary: dict, applied_dictionary: dict):
-    for current_key, current_value in input_dictionary.items():
-        if isinstance(current_value, dict):
-            flatten_dictionary(current_value, applied_dictionary)
-        else:
-            applied_dictionary[current_key] = current_value
-
-    return applied_dictionary
-
-
 def generate_data_frame():
     list_of_objects = []
+    alternative_list_of_objects = []
 
     url_base = "http://api.gios.gov.pl/pjp-api/rest/"
     url_of_stations = url_base + "station/findAll"
@@ -46,14 +36,10 @@ def generate_data_frame():
                 print(f"current measurement: {current_measurement}")
                 print("***********************************************************************")
 
-                alternative_sample = {}
 
-                alternative_sample = flatten_dictionary(current_measurement, alternative_sample)
-                alternative_sample = flatten_dictionary(currently_analysed_sensor, alternative_sample)
-                alternative_sample = flatten_dictionary(currently_analysed_station, alternative_sample)
-
-                if current_measurement['value'] == 0 or currently_analysed_station['gegrLon'] == 0 or \
-                        currently_analysed_station['gegrLon'] == 0:
+                # condition for checking existence of 'polluted' (incomplete) data
+                if current_measurement['value'] is None or currently_analysed_station['gegrLon'] is None or \
+                        currently_analysed_station['gegrLon'] is None:
                     continue
 
                 single_sample = Measurement(
@@ -94,8 +80,9 @@ def generate_data_frame():
                 print(list_of_sample)
                 print('---------------------------------------------------------------------------------------')
 
+                list_of_objects.append(list_of_sample)
 
-
+    return list_of_objects
 
 
 # generate_data_frame()
