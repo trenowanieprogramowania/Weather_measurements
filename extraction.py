@@ -58,23 +58,24 @@ def generate_data_frame():
                     paramFomula=currently_analysed_sensor['param']['paramFormula'],
                     idParam=currently_analysed_sensor['param']['idParam']
                 )
+
+                list_of_sample = Measurement.serialize(single_sample)
+                # list_of_sample = {}
                 
-                list_of_sample = {}
-                
-                list_of_sample['date'] = single_sample.date
-                list_of_sample['value'] = single_sample.value
-                list_of_sample['id'] = single_sample.id
-                list_of_sample['stationName'] = single_sample.station_name
-                list_of_sample['gegrLat'] = single_sample.latitude
-                list_of_sample['gegrLon'] = single_sample.longitude
-                list_of_sample['communeName'] = single_sample.location
-                list_of_sample['districtName'] = single_sample.commune_name
-                list_of_sample['provinceName'] = single_sample.district_name
-                list_of_sample['addressStreet'] = single_sample.province_name
-                list_of_sample['stationId'] = single_sample.address_street
-                list_of_sample['paramName'] = single_sample.station_id
-                list_of_sample['paramFormula'] = single_sample.param_name
-                list_of_sample['idParam'] = single_sample.id_param
+                # list_of_sample['date'] = single_sample.date
+                # list_of_sample['value'] = single_sample.value
+                # list_of_sample['id'] = single_sample.id
+                # list_of_sample['stationName'] = single_sample.station_name
+                # list_of_sample['gegrLat'] = single_sample.latitude
+                # list_of_sample['gegrLon'] = single_sample.longitude
+                # list_of_sample['communeName'] = single_sample.location
+                # list_of_sample['districtName'] = single_sample.commune_name
+                # list_of_sample['provinceName'] = single_sample.district_name
+                # list_of_sample['addressStreet'] = single_sample.province_name
+                # list_of_sample['stationId'] = single_sample.address_street
+                # list_of_sample['paramName'] = single_sample.station_id
+                # list_of_sample['paramFormula'] = single_sample.param_name
+                # list_of_sample['idParam'] = single_sample.id_param
 
                 print('---------------------------------------------------------------------------------------')
                 print(list_of_sample)
@@ -85,4 +86,4 @@ def generate_data_frame():
     return list_of_objects
 
 
-# generate_data_frame()
+generate_data_frame()
