@@ -36,7 +36,11 @@ class Measurement:
 
     def serialize(self):
         return self.__dict__
-
+    """
+    TODO
+    - convert to class method
+    - consider putting and extracting from list (details to be completed)
+    """
     def determine_headers(self):
         return list(self.serialize().keys())
 
