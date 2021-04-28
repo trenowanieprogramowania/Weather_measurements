@@ -1,4 +1,6 @@
 class Measurement:
+    registry_list = []
+
     def __init__(
                  self,
                  date: str,
@@ -30,14 +32,27 @@ class Measurement:
         self.param_formula = paramFormula if paramFormula else ''
         self.id_param = idParam if idParam else ''
 
+        Measurement.registry_list.append(self)
+
     def serialize(self):
         return self.__dict__
 
     def determine_headers(self):
         return list(self.serialize().keys())
 
-    def generate_data(self):
-        pass
+    @classmethod
+    def generate_data(cls):
+        generated_grid = []
+
+        for index in range(len(cls.registry_list)):
+            empty_entry = []
+
+            generated_grid.append(empty_entry)
+
+        for current_entry, constructed_object_in_class in zip(generated_grid, cls.registry_list):
+            current_entry.append(constructed_object_in_class)
+
+        return generated_grid
 
 
 def generate_data1(list_of_objects: list):
