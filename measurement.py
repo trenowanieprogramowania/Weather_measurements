@@ -1,3 +1,5 @@
+import pandas as pd
+
 class Measurement:
     registry_list = []
 
@@ -36,13 +38,17 @@ class Measurement:
 
     def serialize(self):
         return self.__dict__
-    """
-    TODO
-    - convert to class method
-    - consider putting and extracting from list (details to be completed)
-    """
-    def determine_headers(self):
-        return list(self.serialize().keys())
+
+    @classmethod
+    def determine_headers(cls):
+        headers_list = []
+
+        for current_registry_data in cls.registry_list:
+            current_header = list(current_registry_data.serialize().keys())
+
+            headers_list.append(current_header)
+
+        return headers_list
 
     @classmethod
     def generate_data(cls):
@@ -57,6 +63,9 @@ class Measurement:
             current_entry.append(constructed_object_in_class)
 
         return generated_grid
+
+    def generate_data_frame(self):
+        return pd.DataFrame(self.serialize())
 
 
 def generate_data1(list_of_objects: list):
