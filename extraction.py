@@ -55,13 +55,13 @@ def generating_data_frame(list_of_objects):
     headers = Measurement.generating_headers()
     data = Measurement.generating_data()
 
-    print('111111111111111111111111111111111111111111111111111111111111111111111111111111111111111')
-    print(headers)
-    print('111111111111111111111111111111111111111111111111111111111111111111111111111111111111111')
+    # print('111111111111111111111111111111111111111111111111111111111111111111111111111111111111111')
+    # print(headers)
+    # print('111111111111111111111111111111111111111111111111111111111111111111111111111111111111111')
 
-    print('222222222222222222222222222222222222222222222222222222222222222222222222222222222222222')
-    print(data)
-    print('222222222222222222222222222222222222222222222222222222222222222222222222222222222222222')
+    # print('222222222222222222222222222222222222222222222222222222222222222222222222222222222222222')
+    # print(data)
+    # print('222222222222222222222222222222222222222222222222222222222222222222222222222222222222222')
 
     return pd.DataFrame(data=data, columns=headers)
 
@@ -72,12 +72,90 @@ def data_transformation(input_data_frame: pd.DataFrame):
     return input_data_frame
 
 
+def data_air_quality(input_data_frame: pd.DataFrame):
+    # compound_name = {'PM10', 'PM2.5', 'O3', 'NO2', 'SO2', 'C6H6', 'CO'}
+
+    for currently_analysed_date in input_data_frame['date']:
+        if input_data_frame['date'] == currently_analysed_date:
+            if input_data_frame['param_formula'] == 'PM10' and 0 <= input_data_frame['value'] < 20:
+                if input_data_frame['param_formula'] == 'PM2.5' and 0 <= input_data_frame['value'] <= 13:
+                    if input_data_frame['param_formula'] == '03' and 0 <= input_data_frame['value'] <= 70:
+                        if input_data_frame['param_formula'] == 'NO2' and 0 <= input_data_frame['value'] <= 40:
+                            if input_data_frame['param_formula'] == 'S02' and 0 <= input_data_frame['value'] <= 50:
+                                if input_data_frame['param_formula'] == 'C6H6' and 0 <= input_data_frame['value'] <= 6:
+                                    if input_data_frame['param_formula'] == 'CO' \
+                                            and 0 <= input_data_frame['value'] <= 3:
+                                        input_data_frame['air_quality'] = 'very good'
+            elif input_data_frame['param_formula'] == 'PM10' and 20.1 <= input_data_frame['value'] <= 50:
+                if input_data_frame['param_formula'] == 'PM2.5' and 13.1 <= input_data_frame['value'] <= 35:
+                    if input_data_frame['param_formula'] == '03' and 70.1 <= input_data_frame['value'] <= 120:
+                        if input_data_frame['param_formula'] == 'NO2' and 40.1 <= input_data_frame['value'] <= 100:
+                            if input_data_frame['param_formula'] == 'S02' and 0 <= input_data_frame['value'] <= 100:
+                                if input_data_frame['param_formula'] == 'C6H6' \
+                                        and 6.1 <= input_data_frame['value'] <= 11:
+                                    if input_data_frame['param_formula'] == 'CO' \
+                                            and 3.1 <= input_data_frame['value'] <= 7:
+                                        input_data_frame['air_quality'] = 'good'
+            elif input_data_frame['param_formula'] == 'PM10' and 50.1 <= input_data_frame['value'] <= 80:
+                if input_data_frame['param_formula'] == 'PM2.5' and 35.1 <= input_data_frame['value'] <= 55:
+                    if input_data_frame['param_formula'] == '03' and 120.1 <= input_data_frame['value'] <= 150:
+                        if input_data_frame['param_formula'] == 'NO2' and 100.1 <= input_data_frame['value'] <= 150:
+                            if input_data_frame['param_formula'] == 'S02' and 100.1 <= input_data_frame['value'] <= 200:
+                                if input_data_frame['param_formula'] == 'C6H6' \
+                                        and 11.1 <= input_data_frame['value'] <= 16:
+                                    if input_data_frame['param_formula'] == 'CO' \
+                                            and 7.1 <= input_data_frame['value'] <= 11:
+                                        input_data_frame['air_quality'] = 'moderate'
+            elif input_data_frame['param_formula'] == 'PM10' and 80.1 <= input_data_frame['value'] <= 110:
+                if input_data_frame['param_formula'] == 'PM2.5' and 55.1 <= input_data_frame['value'] <= 75:
+                    if input_data_frame['param_formula'] == '03' and 150.1 <= input_data_frame['value'] <= 180:
+                        if input_data_frame['param_formula'] == 'NO2' and 150.1 <= input_data_frame['value'] <= 200:
+                            if input_data_frame['param_formula'] == 'S02' and 200.1 <= input_data_frame['value'] <= 350:
+                                if input_data_frame['param_formula'] == 'C6H6' \
+                                        and 16.1 <= input_data_frame['value'] <= 21:
+                                    if input_data_frame['param_formula'] == 'CO' \
+                                            and 11.1 <= input_data_frame['value'] <= 15:
+                                        input_data_frame['air_quality'] = 'satisfactory'
+            elif input_data_frame['param_formula'] == 'PM10' and 110.1 <= input_data_frame['value'] <= 150:
+                if input_data_frame['param_formula'] == 'PM2.5' and 75.1 <= input_data_frame['value'] <= 110:
+                    if input_data_frame['param_formula'] == '03' and 180.1 <= input_data_frame['value'] <= 240:
+                        if input_data_frame['param_formula'] == 'NO2' and 200.1 <= input_data_frame['value'] <= 240:
+                            if input_data_frame['param_formula'] == 'S02' and 350.1 <= input_data_frame['value'] <= 500:
+                                if input_data_frame['param_formula'] == 'C6H6' \
+                                        and 21.1 <= input_data_frame['value'] <= 51:
+                                    if input_data_frame['param_formula'] == 'CO' \
+                                            and 15.1 <= input_data_frame['value'] <= 21:
+                                        input_data_frame['air_quality'] = 'bad'
+            elif input_data_frame['param_formula'] == 'PM10' and input_data_frame['value'] > 150:
+                if input_data_frame['param_formula'] == 'PM2.5' and input_data_frame['value'] > 110:
+                    if input_data_frame['param_formula'] == '03' and input_data_frame['value'] > 240:
+                        if input_data_frame['param_formula'] == 'NO2' and input_data_frame['value'] > 240:
+                            if input_data_frame['param_formula'] == 'S02' and input_data_frame['value'] > 500:
+                                if input_data_frame['param_formula'] == 'C6H6' and input_data_frame['value'] > 51:
+                                    if input_data_frame['param_formula'] == 'CO' and input_data_frame['value'] > 21:
+                                        input_data_frame['air_quality'] = 'very bad'
+            elif (input_data_frame['param_formula'] == 'PM10' and input_data_frame['value'] is None) or \
+                    (input_data_frame['param_formula'] == 'PM2.5' and input_data_frame['value'] is None) or \
+                    (input_data_frame['param_formula'] == 'O3' and input_data_frame['value'] is None) or \
+                    (input_data_frame['param_formula'] == 'NO2' and input_data_frame['value'] is None) or \
+                    (input_data_frame['param_formula'] == 'SO2' and input_data_frame['value'] is None) or \
+                    (input_data_frame['param_formula'] == 'C6H6' and input_data_frame['value'] is None) or \
+                    (input_data_frame['param_formula'] == 'CO' and input_data_frame['value'] is None):
+                input_data_frame['air_quality'] = 'no index'
+
+    return input_data_frame
+
+
 list_of_objects = data_extraction()
 
 outcome_data_frame = generating_data_frame(list_of_objects)
 
 data_frame = data_transformation(outcome_data_frame)
 
-print(data_frame.to_string())
+data_frame = data_transformation(outcome_data_frame)
+
+# print(data_frame.to_string())
 
 # print(outcome_data_frame.head(10))
+
+print(list(data_frame.columns.values))
