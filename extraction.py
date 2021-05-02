@@ -1,9 +1,11 @@
+import pandas as pd
+
 import requests
 
 from measurement import Measurement
 
 
-def generate_data_frame():
+def data_extraction():
     list_of_objects = []
 
     url_base = "http://api.gios.gov.pl/pjp-api/rest/"
@@ -44,13 +46,38 @@ def generate_data_frame():
 
                 list_of_sample = single_sample.serialize()
 
-                print('---------------------------------------------------------------------------------------')
-                print(list_of_sample)
-                print('---------------------------------------------------------------------------------------')
-
                 list_of_objects.append(list_of_sample)
 
     return list_of_objects
 
 
-generate_data_frame()
+def generating_data_frame(list_of_objects):
+    headers = Measurement.generating_headers()
+    data = Measurement.generating_data()
+
+    print('111111111111111111111111111111111111111111111111111111111111111111111111111111111111111')
+    print(headers)
+    print('111111111111111111111111111111111111111111111111111111111111111111111111111111111111111')
+
+    print('222222222222222222222222222222222222222222222222222222222222222222222222222222222222222')
+    print(data)
+    print('222222222222222222222222222222222222222222222222222222222222222222222222222222222222222')
+
+    return pd.DataFrame(data=data, columns=headers)
+
+
+def data_transformation(input_data_frame: pd.DataFrame):
+    input_data_frame['alarm'] = input_data_frame['value'] > 10
+
+    return input_data_frame
+
+
+list_of_objects = data_extraction()
+
+outcome_data_frame = generating_data_frame(list_of_objects)
+
+data_frame = data_transformation(outcome_data_frame)
+
+print(data_frame.to_string())
+
+# print(outcome_data_frame.head(10))

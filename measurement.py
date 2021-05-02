@@ -1,7 +1,9 @@
 import pandas as pd
 
+
 class Measurement:
     registry_list = []
+    headers_list = []
 
     def __init__(
                  self,
@@ -40,15 +42,17 @@ class Measurement:
         return self.__dict__
 
     @classmethod
-    def determine_headers(cls):
-        headers_list = []
+    def generating_headers(cls):
+        return list(Measurement.registry_list[0].serialize().keys())
 
-        for current_registry_data in cls.registry_list:
-            current_header = list(current_registry_data.serialize().keys())
+    @classmethod
+    def generating_data(cls):
+        generated_list_of_headers = []
 
-            headers_list.append(current_header)
+        for current_element in cls.registry_list:
+            generated_list_of_headers.append(list(current_element.__dict__.values()))
 
-        return headers_list
+        return generated_list_of_headers
 
     @classmethod
     def generate_data(cls):
@@ -63,9 +67,6 @@ class Measurement:
             current_entry.append(constructed_object_in_class)
 
         return generated_grid
-
-    def generate_data_frame(self):
-        return pd.DataFrame(self.serialize())
 
 
 def generate_data1(list_of_objects: list):
