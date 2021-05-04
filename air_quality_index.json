@@ -1,0 +1,15 @@
+{
+  "Compound": {
+    "PM10": {
+      "Very bad": 150,
+      "Bad": 110,
+      "Satisfactory": 80,
+      "Moderate": 50,
+      "Good": 20,
+      "Very good": 0
+    },
+    "PM2.5": {},
+    "O3": {}
+    ...
+  }
+}

@@ -1,5 +1,6 @@
 import pandas as pd
 
+import json
 import requests
 
 from measurement import Measurement
@@ -72,100 +73,86 @@ def data_transformation(input_data_frame: pd.DataFrame):
     return input_data_frame
 
 
-def data_air_quality(input_data_frame: pd.DataFrame):
+def investigate_air_quality(input_data_frame, comparable_json_file):
     # compound_name = {'PM10', 'PM2.5', 'O3', 'NO2', 'SO2', 'C6H6', 'CO'}
 
-    # przejscie przez wszystkie daty dostepne w input_data_frame
-    # for currently_analysed_date in input_data_frame['date']:
+    with open('air_quality_index.json', 'r') as investigated_source:
+        investigated_compounds = json.load(investigated_source)
 
+        if input_data_frame['param_formula'] in investigated_compounds["Compound"].keys():
+            investigated_param_formula = input_data_frame['param_formula']
 
-    input_data_frame['air_quality'] = ''
+            if input_data_frame['value'] > investigated_compounds['Compound'][investigated_param_formula]['Very bad']:
+                return 'Very bad'
+            elif input_data_frame['value'] <= investigated_compounds['Compound'][investigated_param_formula]['Very bad'] \
+                and input_data_frame['value'] > investigated_compounds['Compound'][investigated_param_formula]['bad']:
+                return 'Bad'
+            elif input_data_frame['value'] <= investigated_compounds['Compound'][investigated_param_formula]['Bad'] \
+                and input_data_frame['value'] > investigated_compounds['Compound'][investigated_param_formula]['Satisfactory']:
+                return 'Satisfactory'
+            elif input_data_frame['value'] <= investigated_compounds['Compound'][investigated_param_formula]['Satisfactory'] \
+                and input_data_frame['value'] > investigated_compounds['Compound'][investigated_param_formula]['Moderate']:
+                return 'Moderate'
+            elif input_data_frame['value'] <= investigated_compounds['Compound'][investigated_param_formula]['Moderate'] \
+                and input_data_frame['value'] > investigated_compounds['Compound'][investigated_param_formula]['Good']:
+                return 'Good'
+            elif input_data_frame['value'] <= investigated_compounds['Compound'][investigated_param_formula]['Good'] \
+                and input_data_frame['value'] > investigated_compounds['Compound'][investigated_param_formula]['Very good']:
+                return 'Very good'
 
-    for row_index in range(input_data_frame.shape[0]):
-        # if input_data_frame['date'][row_index] == currently_analysed_date:
+    '''
+    if (input_data_frame['param_formula'] == 'PM10' and 0 <= input_data_frame['value'] < 20) \
+            or (input_data_frame['param_formula'] == 'PM2.5' and 0 <= input_data_frame['value'] <= 13) \
+            or (input_data_frame['param_formula'] == '03' and 0 <= input_data_frame['value'] <= 70) \
+            or (input_data_frame['param_formula'] == 'NO2' and 0 <= input_data_frame['value'] <= 40) \
+            or (input_data_frame['param_formula'] == 'S02' and 0 <= input_data_frame['value'] <= 50) \
+            or (input_data_frame['param_formula'] == 'C6H6' and 0 <= input_data_frame['value'] <= 6) \
+            or (input_data_frame['param_formula'] == 'CO' and 0 <= input_data_frame['value'] <= 3):
+        return 'very good'
+    elif (input_data_frame['param_formula'] == 'PM10' and 20.1 <= input_data_frame['value'] <= 50) \
+            or (input_data_frame['param_formula'] == 'PM2.5' and 13.1 <= input_data_frame['value'] <= 35) \
+            or (input_data_frame['param_formula'] == '03' and 70.1 <= input_data_frame['value'] <= 120) \
+            or (input_data_frame['param_formula'] == 'NO2' and 40.1 <= input_data_frame['value'] <= 100) \
+            or (input_data_frame['param_formula'] == 'S02' and 0 <= input_data_frame['value'] <= 100) \
+            or (input_data_frame['param_formula'] == 'C6H6' and 6.1 <= input_data_frame['value'] <= 11) \
+            or (input_data_frame['param_formula'] == 'CO' and 3.1 <= input_data_frame['value'] <= 7):
+        return 'good'
+    elif (input_data_frame['param_formula'] == 'PM10' and 50.1 <= input_data_frame['value'] <= 80) \
+            or (input_data_frame['param_formula'] == 'PM2.5' and 35.1 <= input_data_frame['value'] <= 55) \
+            or (input_data_frame['param_formula'] == '03' and 120.1 <= input_data_frame['value'] <= 150) \
+            or (input_data_frame['param_formula'] == 'NO2' and 100.1 <= input_data_frame['value'] <= 150) \
+            or (input_data_frame['param_formula'] == 'S02' and 100.1 <= input_data_frame['value'] <= 200) \
+            or (input_data_frame['param_formula'] == 'C6H6' and 11.1 <= input_data_frame['value'] <= 16) \
+            or (input_data_frame['param_formula'] == 'CO' and 7.1 <= input_data_frame['value'] <= 11):
+        return 'moderate'
+    elif (input_data_frame['param_formula'] == 'PM10' and 80.1 <= input_data_frame['value'] <= 110) \
+            or (input_data_frame['param_formula'] == 'PM2.5' and 55.1 <= input_data_frame['value'] <= 75) \
+            or (input_data_frame['param_formula'] == '03' and 150.1 <= input_data_frame['value'] <= 180) \
+            or (input_data_frame['param_formula'] == 'NO2' and 150.1 <= input_data_frame['value'] <= 200) \
+            or (input_data_frame['param_formula'] == 'S02' and 200.1 <= input_data_frame['value'] <= 350) \
+            or (input_data_frame['param_formula'] == 'C6H6' and 16.1 <= input_data_frame['value'] <= 21) \
+            or (input_data_frame['param_formula'] == 'CO' and 11.1 <= input_data_frame['value'] <= 15):
+        return 'satisfactory'
+    elif (input_data_frame['param_formula'] == 'PM10' and 110.1 <= input_data_frame['value'] <= 150) \
+            or (input_data_frame['param_formula'] == 'PM2.5' and 75.1 <= input_data_frame['value'] <= 110) \
+            or (input_data_frame['param_formula'] == '03' and 180.1 <= input_data_frame['value'] <= 240) \
+            or (input_data_frame['param_formula'] == 'NO2' and 200.1 <= input_data_frame['value'] <= 240) \
+            or (input_data_frame['param_formula'] == 'S02' and 350.1 <= input_data_frame['value'] <= 500) \
+            or (input_data_frame['param_formula'] == 'C6H6' and 21.1 <= input_data_frame['value'] <= 51) \
+            or (input_data_frame['param_formula'] == 'CO' and 15.1 <= input_data_frame['value'] <= 21):
+        return 'bad'
+    elif (input_data_frame['param_formula'] == 'PM10' and input_data_frame['value'] > 150) \
+            or (input_data_frame['param_formula'] == 'PM2.5' and input_data_frame['value'] > 110) \
+            or (input_data_frame['param_formula'] == '03' and input_data_frame['value'] > 240) \
+            or (input_data_frame['param_formula'] == 'NO2' and input_data_frame['value'] > 240) \
+            or (input_data_frame['param_formula'] == 'S02' and input_data_frame['value'] > 500) \
+            or (input_data_frame['param_formula'] == 'C6H6' and input_data_frame['value'] > 51) \
+            or (input_data_frame['param_formula'] == 'CO' and input_data_frame['value'] > 21):
+        return 'very bad'
+    '''
 
-        # obsluzenie bloku dla pojedynczej daty
-        '''
-        Ponizszy kod jest zle napisany, ale nie wiem, jak napisac poprawne rozwiazanie.
-            
-        Idea rozwiazania wydaje mi sie taka:
-        - przejscie przez wszystkie mozliwe daty
-        - wyodrebnienie wierszy z danego DataFrame'u spelniajacego koniunkcje warunkow
-        - dla wyodrebnionych takich wierszy stworzenie kolumny air_quality i odpowiednie przypisanie wartosci 
-        '''
-
-        print(f'currently investigated row number: {row_index + 1}')
-
-
-        if (input_data_frame['param_formula'][row_index] == 'PM10' and 0 <= input_data_frame['value'][row_index] < 20) \
-            or (input_data_frame['param_formula'][row_index] == 'PM2.5' and 0 <= input_data_frame['value'][row_index] <= 13) \
-            or (input_data_frame['param_formula'][row_index] == '03' and 0 <= input_data_frame['value'][row_index] <= 70) \
-            or (input_data_frame['param_formula'][row_index] == 'NO2' and 0 <= input_data_frame['value'][row_index] <= 40) \
-            or (input_data_frame['param_formula'][row_index] == 'S02' and 0 <= input_data_frame['value'][row_index] <= 50) \
-            or (input_data_frame['param_formula'][row_index] == 'C6H6' and 0 <= input_data_frame['value'][row_index] <= 6) \
-            or (input_data_frame['param_formula'][row_index] == 'CO' and 0 <= input_data_frame['value'][row_index] <= 3):
-                # input_data_frame['air_quality'][row_index].replace({'': 'very good', ' ': ''})
-                input_data_frame.at[row_index, 'air_quality'] = 'very good'
-
-        elif (input_data_frame['param_formula'][row_index] == 'PM10' and 20.1 <= input_data_frame['value'][row_index] <= 50) \
-            or (input_data_frame['param_formula'][row_index] == 'PM2.5' and 13.1 <= input_data_frame['value'][row_index] <= 35) \
-            or (input_data_frame['param_formula'][row_index] == '03' and 70.1 <= input_data_frame['value'][row_index] <= 120) \
-            or (input_data_frame['param_formula'][row_index] == 'NO2' and 40.1 <= input_data_frame['value'][row_index] <= 100) \
-            or (input_data_frame['param_formula'][row_index] == 'S02' and 0 <= input_data_frame['value'][row_index] <= 100) \
-            or (input_data_frame['param_formula'][row_index] == 'C6H6' and 6.1 <= input_data_frame['value'][row_index] <= 11) \
-            or (input_data_frame['param_formula'][row_index] == 'CO' and 3.1 <= input_data_frame['value'][row_index] <= 7):
-                # input_data_frame['air_quality'][row_index].replace({'': 'good'})
-                input_data_frame.at[row_index, 'air_quality'] = 'good'
-
-        elif (input_data_frame['param_formula'][row_index] == 'PM10' and 50.1 <= input_data_frame['value'][row_index] <= 80) \
-            or (input_data_frame['param_formula'][row_index] == 'PM2.5' and 35.1 <= input_data_frame['value'][row_index] <= 55) \
-            or (input_data_frame['param_formula'][row_index] == '03' and 120.1 <= input_data_frame['value'][row_index] <= 150) \
-            or (input_data_frame['param_formula'][row_index] == 'NO2' and 100.1 <= input_data_frame['value'][row_index] <= 150) \
-            or (input_data_frame['param_formula'][row_index] == 'S02' and 100.1 <= input_data_frame['value'][row_index] <= 200) \
-            or (input_data_frame['param_formula'][row_index] == 'C6H6' and 11.1 <= input_data_frame['value'][row_index] <= 16) \
-            or (input_data_frame['param_formula'][row_index] == 'CO' and 7.1 <= input_data_frame['value'][row_index] <= 11):
-                # input_data_frame['air_quality'][row_index].replace({'': 'moderate'})
-                input_data_frame.at[row_index, 'air_quality'] = 'moderate'
-
-        elif (input_data_frame['param_formula'][row_index] == 'PM10' and 80.1 <= input_data_frame['value'][row_index] <= 110) \
-            or (input_data_frame['param_formula'][row_index] == 'PM2.5' and 55.1 <= input_data_frame['value'][row_index] <= 75) \
-            or (input_data_frame['param_formula'][row_index] == '03' and 150.1 <= input_data_frame['value'][row_index] <= 180) \
-            or (input_data_frame['param_formula'][row_index] == 'NO2' and 150.1 <= input_data_frame['value'][row_index] <= 200) \
-            or (input_data_frame['param_formula'][row_index] == 'S02' and 200.1 <= input_data_frame['value'][row_index] <= 350) \
-            or (input_data_frame['param_formula'][row_index] == 'C6H6' and 16.1 <= input_data_frame['value'][row_index] <= 21) \
-            or (input_data_frame['param_formula'][row_index] == 'CO' and 11.1 <= input_data_frame['value'][row_index] <= 15):
-                # input_data_frame['air_quality'][row_index].replace({'': 'satisfactory'})
-                input_data_frame.at[row_index, 'air_quality'] = 'satisfactory'
-
-        elif (input_data_frame['param_formula'][row_index] == 'PM10' and 110.1 <= input_data_frame['value'][row_index] <= 150) \
-            or (input_data_frame['param_formula'][row_index] == 'PM2.5' and 75.1 <= input_data_frame['value'][row_index] <= 110) \
-            or (input_data_frame['param_formula'][row_index] == '03' and 180.1 <= input_data_frame['value'][row_index] <= 240) \
-            or (input_data_frame['param_formula'][row_index] == 'NO2' and 200.1 <= input_data_frame['value'][row_index] <= 240) \
-            or (input_data_frame['param_formula'][row_index] == 'S02' and 350.1 <= input_data_frame['value'][row_index] <= 500) \
-            or (input_data_frame['param_formula'][row_index] == 'C6H6' and 21.1 <= input_data_frame['value'][row_index]<= 51) \
-            or (input_data_frame['param_formula'][row_index] == 'CO' and 15.1 <= input_data_frame['value'][row_index] <= 21):
-                # input_data_frame['air_quality'][row_index].replace({'': 'bad'})
-                input_data_frame.at[row_index, 'air_quality'] = 'bad'
-
-        elif (input_data_frame['param_formula'][row_index] == 'PM10' and input_data_frame['value'][row_index] > 150) \
-            or (input_data_frame['param_formula'][row_index] == 'PM2.5' and input_data_frame['value'][row_index] > 110) \
-            or (input_data_frame['param_formula'][row_index] == '03' and input_data_frame['value'][row_index] > 240) \
-            or (input_data_frame['param_formula'][row_index] == 'NO2' and input_data_frame['value'][row_index] > 240) \
-            or (input_data_frame['param_formula'][row_index] == 'S02' and input_data_frame['value'][row_index] > 500) \
-            or (input_data_frame['param_formula'][row_index] == 'C6H6' and input_data_frame['value'][row_index] > 51) \
-            or (input_data_frame['param_formula'][row_index] == 'CO' and input_data_frame['value'][row_index] > 21):
-                # input_data_frame['air_quality'][row_index].replace({'': 'very bad'})
-                input_data_frame.at[row_index, 'air_quality'] = 'very bad'
-
-        elif (input_data_frame['param_formula'][row_index] == 'PM10' and input_data_frame['value'][row_index] is None) \
-            or (input_data_frame['param_formula'][row_index] == 'PM2.5' and input_data_frame['value'][row_index] is None) \
-            or (input_data_frame['param_formula'][row_index] == 'O3' and input_data_frame['value'][row_index] is None) \
-            or (input_data_frame['param_formula'][row_index] == 'NO2' and input_data_frame['value'][row_index] is None) \
-            or (input_data_frame['param_formula'][row_index] == 'SO2' and input_data_frame['value'][row_index] is None) \
-            or (input_data_frame['param_formula'][row_index] == 'C6H6' and input_data_frame['value'][row_index] is None) \
-            or (input_data_frame['param_formula'][row_index] == 'CO' and input_data_frame['value'][row_index] is None):
-                # input_data_frame['air_quality'][row_index].replace({'': 'no index'})
-                input_data_frame.at[row_index, 'air_quality'] = 'no index'
+def data_air_quality(input_data_frame: pd.DataFrame):
+    input_data_frame['air_quality'] = input_data_frame.apply(investigate_air_quality, axis=1)
 
     return input_data_frame
 
@@ -175,12 +162,8 @@ list_of_objects = data_extraction()
 outcome_data_frame = generating_data_frame(list_of_objects)
 
 data_frame = data_transformation(outcome_data_frame)
+data_frame = data_air_quality(data_frame)
 
-data_frame = data_air_quality(outcome_data_frame)
-data_frame = data_air_quality(outcome_data_frame)
-
-# print(data_frame.to_string())
-
-print(outcome_data_frame.head(5))
+print(data_frame.to_string())
 
 # print(list(data_frame.columns.values))
