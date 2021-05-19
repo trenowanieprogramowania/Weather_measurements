@@ -121,16 +121,17 @@ def data_air_quality_with_loc_method(input_data_frame: pd.DataFrame):
         given_compounds = set(input_data_frame['param_formula'])
 
         for currently_investigated_compound in given_compounds:
+            # print(input_data_frame['param_formula'])
 
-            if currently_investigated_compound in investigated_compounds["Compound"].keys():
-                investigated_param_formula = currently_investigated_compound
+            investigated_param_formula = currently_investigated_compound
 
-                input_data_frame.loc[input_data_frame['value']
+
+            input_data_frame.loc[input_data_frame['value']
                                      > investigated_compounds['Compound'][investigated_param_formula]['Very bad'], \
                                      'air_quality'] \
                     = 'Very bad'
 
-                input_data_frame.loc[((input_data_frame['value']
+            input_data_frame.loc[((input_data_frame['value']
                                        > investigated_compounds['Compound'][investigated_param_formula]['Bad'])
                                       &
                                       (input_data_frame['value']
@@ -139,7 +140,7 @@ def data_air_quality_with_loc_method(input_data_frame: pd.DataFrame):
                                      'air_quality'] \
                     = 'Bad'
 
-                input_data_frame.loc[((input_data_frame['value']
+            input_data_frame.loc[((input_data_frame['value']
                                        > investigated_compounds['Compound'][investigated_param_formula]['Satisfactory'])
                                       &
                                       (input_data_frame['value']
@@ -148,7 +149,7 @@ def data_air_quality_with_loc_method(input_data_frame: pd.DataFrame):
                                      'air_quality'] \
                     = 'Satisfactory'
 
-                input_data_frame.loc[((input_data_frame['value']
+            input_data_frame.loc[((input_data_frame['value']
                                        > investigated_compounds['Compound'][investigated_param_formula]['Moderate'])
                                       &
                                       (input_data_frame['value']
@@ -157,7 +158,7 @@ def data_air_quality_with_loc_method(input_data_frame: pd.DataFrame):
                                      'air_quality'] \
                     = 'Moderate'
 
-                input_data_frame.loc[((input_data_frame['value']
+            input_data_frame.loc[((input_data_frame['value']
                                        > investigated_compounds['Compound'][investigated_param_formula]['Good'])
                                       &
                                       (input_data_frame['value']
@@ -166,7 +167,7 @@ def data_air_quality_with_loc_method(input_data_frame: pd.DataFrame):
                                      'air_quality'] \
                     = 'Good'
 
-                input_data_frame.loc[((input_data_frame['value']
+            input_data_frame.loc[((input_data_frame['value']
                                        > investigated_compounds['Compound'][investigated_param_formula]['Very good'])
                                       &
                                       (input_data_frame['value']
@@ -209,40 +210,42 @@ def plot_time_performance(number_of_samples: int, size_of_step: int, initial_ste
 
     plt.plot(list_of_arguments, list_of_outcomes_no_loc_method, 'r', label='without loc method')
     plt.plot(list_of_arguments, list_of_outcomes_loc_method, 'b', label='with_loc_method')
+    #plt.legend(handles=[line1], loc=4)
 
     plt.show()
 
 ####################################################################################
 
 
-plot_time_performance(number_of_samples=5, size_of_step=1, initial_step=1)
+# plot_time_performance(number_of_samples=20, size_of_step=1, initial_step=1)
 
-# list_of_objects = data_extraction(1)
+list_of_objects = data_extraction(1)
 
 # outcome_data_frame1 = generating_data_frame(list_of_objects)
-# outcome_data_frame2 = generating_data_frame(list_of_objects)
+outcome_data_frame2 = generating_data_frame(list_of_objects)
 
 # data_frame = data_transformation(outcome_data_frame)
 
 # data_frame1 = data_air_quality_without_loc_method(outcome_data_frame1)
-# data_frame2 = data_air_quality_with_loc_method(outcome_data_frame2)
+data_frame2 = data_air_quality_with_loc_method(outcome_data_frame2)
 
 # other_data_frame1 = data_air_quality_without_loc_method(outcome_data_frame1)
 # other_data_frame2 = data_air_quality_with_loc_method(data_frame2)
 
-# print(other_data_frame1.equals(other_data_frame2))
+# print(data_frame1.equals(data_frame2))
 # print(data_frame.to_string())
-# print(other_data_frame1.to_string())
+# print(data_frame1.to_string())
 # print('Other dataFrame------------------------------------------------------------------------------------------------------------')
-# print(other_data_frame2.to_string())
+# print(data_frame2.to_string())
 
-# print(other_data_frame1.tail(5))
+# print(data_frame1.tail(5))
 # print('-----------------------')
-# print(other_data_frame2.tail(5))
-
+# print(data_frame2.tail(5))
+'''
 # print(other_data_frame1.equals(other_data_frame2))
 
 # print(len(data_frame1))
 # print(len(data_frame2))
 
 # print(list(data_frame.columns.values))
+'''
