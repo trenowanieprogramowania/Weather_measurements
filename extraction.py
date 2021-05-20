@@ -107,9 +107,19 @@ def investigate_air_quality(input_data_frame: pd.DataFrame):
 def data_air_quality_without_loc_method(input_data_frame: pd.DataFrame):
     input_data_frame['air_quality'] = input_data_frame.apply(investigate_air_quality, axis=1)
 
-    # print('------------------------Generating group_by result---------------------------------------')
-    # mean_value = input_data_frame.groupby(['param_formula'], as_index=False)['value'].mean()
-    # print(mean_value.to_string())
+    print('------------------------group_by result - mean concentration of compounds-----------------------------')
+    mean_value = input_data_frame.groupby(['param_formula'], as_index=False)['value'].mean()
+    print(mean_value.to_string())
+
+    print('------------------------group_by result - pollution level for cities----------------------------------')
+    maximum_pollution = input_data_frame.groupby(['commune_name', 'address_street', 'param_formula'],
+                                                 as_index=False).agg({'value': ['max', 'min', 'mean']})
+    print(maximum_pollution.to_string())
+
+    print('-----------------------group_by result - measurements of compounds per city--------------------------- ')
+    measurements_per_city = input_data_frame.groupby(['commune_name', 'param_formula'], as_index=False).size()
+    print(measurements_per_city.to_string())
+
 
     return input_data_frame
 
@@ -219,23 +229,23 @@ def plot_time_performance(number_of_samples: int, size_of_step: int, initial_ste
 
 # plot_time_performance(number_of_samples=20, size_of_step=1, initial_step=1)
 
-list_of_objects = data_extraction(1)
+list_of_objects = data_extraction(3)
 
-# outcome_data_frame1 = generating_data_frame(list_of_objects)
-outcome_data_frame2 = generating_data_frame(list_of_objects)
+outcome_data_frame1 = generating_data_frame(list_of_objects)
+# outcome_data_frame2 = generating_data_frame(list_of_objects)
 
 # data_frame = data_transformation(outcome_data_frame)
 
-# data_frame1 = data_air_quality_without_loc_method(outcome_data_frame1)
-data_frame2 = data_air_quality_with_loc_method(outcome_data_frame2)
+data_frame1 = data_air_quality_without_loc_method(outcome_data_frame1)
+# data_frame2 = data_air_quality_with_loc_method(outcome_data_frame2)
 
 # other_data_frame1 = data_air_quality_without_loc_method(outcome_data_frame1)
 # other_data_frame2 = data_air_quality_with_loc_method(data_frame2)
 
 # print(data_frame1.equals(data_frame2))
 # print(data_frame.to_string())
-# print(data_frame1.to_string())
-# print('Other dataFrame------------------------------------------------------------------------------------------------------------')
+print(data_frame1.to_string())
+# print('Other dataFrame----------------------------------------------------------------------------------------------')
 # print(data_frame2.to_string())
 
 # print(data_frame1.tail(5))
