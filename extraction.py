@@ -107,20 +107,6 @@ def investigate_air_quality(input_data_frame: pd.DataFrame):
 def data_air_quality_without_loc_method(input_data_frame: pd.DataFrame):
     input_data_frame['air_quality'] = input_data_frame.apply(investigate_air_quality, axis=1)
 
-    print('------------------------group_by result - mean concentration of compounds-----------------------------')
-    mean_value = input_data_frame.groupby(['param_formula'], as_index=False)['value'].mean()
-    print(mean_value.to_string())
-
-    print('------------------------group_by result - pollution level for cities----------------------------------')
-    maximum_pollution = input_data_frame.groupby(['commune_name', 'address_street', 'param_formula'],
-                                                 as_index=False).agg({'value': ['max', 'min', 'mean']})
-    print(maximum_pollution.to_string())
-
-    print('-----------------------group_by result - measurements of compounds per city--------------------------- ')
-    measurements_per_city = input_data_frame.groupby(['commune_name', 'param_formula'], as_index=False).size()
-    print(measurements_per_city.to_string())
-
-
     return input_data_frame
 
 
@@ -189,6 +175,27 @@ def data_air_quality_with_loc_method(input_data_frame: pd.DataFrame):
     return input_data_frame
 
 
+def present_aggregated_data(input_data_frame: pd.DataFrame):
+    print('------------------------group_by result - mean concentration of compounds-----------------------------')
+    mean_value = input_data_frame.groupby(['commune_name', 'param_formula'], as_index=False)['value'].mean()
+    mean_value = data_air_quality_without_loc_method(mean_value)
+    print(mean_value.to_string())
+
+    print('------------------------group_by result - pollution level for cities----------------------------------')
+    maximum_pollution = input_data_frame.groupby(['commune_name', 'address_street', 'param_formula'],
+                                                 as_index=False).agg({'value': ['max', 'min', 'mean']})
+    print(maximum_pollution.to_string())
+
+    print('-----------------------group_by result - measurements of compounds per city--------------------------- ')
+    measurements_per_city = input_data_frame.groupby(['commune_name', 'param_formula'], as_index=False).size()
+    print(measurements_per_city.to_string())
+
+    print('-----------------------group_by result - outline of stations from extracted API------------------------')
+    outline_of_stations = input_data_frame.groupby(['commune_name', 'district_name', 'address_street'],
+                                                   as_index=False)['location'].count()
+    print(outline_of_stations)
+
+
 def plot_time_performance(number_of_samples: int, size_of_step: int, initial_step: int):
     final_step = initial_step + size_of_step * number_of_samples
 
@@ -220,7 +227,6 @@ def plot_time_performance(number_of_samples: int, size_of_step: int, initial_ste
 
     plt.plot(list_of_arguments, list_of_outcomes_no_loc_method, 'r', label='without loc method')
     plt.plot(list_of_arguments, list_of_outcomes_loc_method, 'b', label='with_loc_method')
-    #plt.legend(handles=[line1], loc=4)
 
     plt.show()
 
@@ -247,6 +253,8 @@ data_frame1 = data_air_quality_without_loc_method(outcome_data_frame1)
 print(data_frame1.to_string())
 # print('Other dataFrame----------------------------------------------------------------------------------------------')
 # print(data_frame2.to_string())
+
+present_aggregated_data(data_frame1)
 
 # print(data_frame1.tail(5))
 # print('-----------------------')
