@@ -121,7 +121,6 @@ def data_air_quality_with_loc_method(input_data_frame: pd.DataFrame):
 
             investigated_param_formula = currently_investigated_compound
 
-
             input_data_frame.loc[input_data_frame['value']
                                      > investigated_compounds['Compound'][investigated_param_formula]['Very bad'], \
                                      'air_quality'] \
@@ -191,39 +190,54 @@ def present_aggregated_data(input_data_frame: pd.DataFrame):
     print(measurements_per_city.to_string())
 
     print('----------------------group_by result - outline of major stations from extracted API----------------------')
-    outline_of_stations = input_data_frame.groupby(['commune_name', 'district_name', 'address_street'],
-                                                   as_index=False)['location'].first()
+    outline_of_stations = input_data_frame.groupby(['location_lat', 'location_lon', 'commune_name',
+                                                    'district_name', 'address_street'],
+                                                   as_index=False)['value'].mean()
 
-    outline_of_stations2 = input_data_frame.groupby(['commune_name', 'district_name', 'address_street'],
-                                                    as_index=False)['location'].count()
+    print(outline_of_stations.to_string())
+    # outline_of_stations2 = input_data_frame.groupby(['commune_name', 'district_name', 'address_street'],
+    #                                                as_index=False)['location'].count()
 
-    outline_of_stations2 = outline_of_stations2.rename(columns={'location': 'number of stations'})
+    # outline_of_stations2 = outline_of_stations2.rename(columns={'location': 'number of stations'})
 
-    output = pd.concat([outline_of_stations, outline_of_stations2['number of stations']], axis=1)
+    # output = pd.concat([outline_of_stations, outline_of_stations2['number of stations']], axis=1)
 
-    print(output.to_string())
+    # print(output.to_string())
 
-    print('--------------------groupby_result - distribution of amount of compounds per location--------------------')
+    # print('--------------------groupby_result - distribution of amount of compounds per location--------------------')
 
-    location_column = input_data_frame['location']
-    location_column = location_column.apply(lambda coordinate: (coordinate['lat'], coordinate['lon']))
+    # location_column = input_data_frame['location']
+    # location_column = location_column.apply(lambda coordinate: (coordinate['lat'], coordinate['lon']))
 
-    coordinates_table = pd.DataFrame()
-    coordinates_table['latitude'] = location_column.apply(lambda component: component[0])
-    coordinates_table['longitude'] = location_column.apply(lambda component: component[1])
+    # mean_value = input_data_frame.groupby(['commune_name', 'param_formula'], as_index=False)['value'].mean()
+    # attempted_form = input_data_frame.groupby(['location_lat', 'location_lon', 'param_formula'],
+    #                                          as_index=False)['value'].mean()
+    '''
+    print('attempted form')
+    print(attempted_form.to_string())
 
-    combined_location_and_compounds = pd.concat([coordinates_table,
-                                                 input_data_frame['param_formula'],
-                                                 input_data_frame['value']],
-                                                axis=1)
 
-    condensed_form = combined_location_and_compounds.groupby(['latitude', 'longitude', 'param_formula'])['value'].mean()
+    # coordinates_table = pd.DataFrame()
+    # coordinates_table['latitude'] = location_column.apply(lambda component: component[0])
+    # coordinates_table['longitude'] = location_column.apply(lambda component: component[1])
 
-    print(condensed_form.to_string())
+    # combined_location_and_compounds = pd.concat([coordinates_table,
+    #                                             input_data_frame['param_formula'],
+    #                                             input_data_frame['value']],
+    #                                            axis=1)
+    '''
+    # print('-----------------------combined location and compounds dataFrame-----------------------------------')
+    # print(f' dimension of input dataFrame: {input_data_frame.shape}')
+    # print(f' dimension of output dataFrame: {combined_location_and_compounds.shape}')
+    # print(combined_location_and_compounds.to_string())
+
+    # condensed_form = combined_location_and_compounds.groupby(['latitude', 'longitude', 'param_formula'])['value'].mean()
+
+    # print(condensed_form.to_string())
 
     print('--------------------groupbyresult - cumulative mean for compounds per station--------------------')
 
-    cumulative_table = input_data_frame.groupby(['station_id', 'param_formula'])['value'].expanding().mean()
+    cumulative_table = input_data_frame.groupby(['station_id', 'date', 'param_formula'])['value'].expanding().mean()
 
     print(cumulative_table.to_string())
 
@@ -233,11 +247,12 @@ def present_aggregated_data(input_data_frame: pd.DataFrame):
 
     print(density_table.to_string())
 
-    print('plotting histogram')
-    density_table.plot(x='param_formula', y='value', kind='bar', rot=5, fontsize=4)
-    plt.show()
-    print('completing plotting histogram')
+    # print('plotting histogram')
+    # density_table.plot(x='param_formula', y='value', kind='bar', rot=5, fontsize=4)
+    # plt.show()
+    # print('completing plotting histogram')
 
+    pd.crosstab(input_data_frame)
 
 def plot_time_performance(number_of_samples: int, size_of_step: int, initial_step: int):
     final_step = initial_step + size_of_step * number_of_samples

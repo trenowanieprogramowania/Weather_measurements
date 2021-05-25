@@ -1,6 +1,3 @@
-import pandas as pd
-
-
 class Measurement:
     registry_list = []
     headers_list = []
@@ -25,8 +22,8 @@ class Measurement:
         self.value = value if value else 0
         self.id = id if id else 0
         self.station_name = stationName if stationName else ''
-        self.location = {'lat': kwargs['gegrLat'], 'lon': kwargs['gegrLon']} \
-            if 'gegrLat' and 'gegrLon' in kwargs.keys() else {'lat': '', 'lon': ''}
+        self.location_lat = kwargs['gegrLat'] if 'gegrLat' in kwargs.keys() else ''
+        self.location_lon = kwargs['gegrLon'] if 'gegrLon' in kwargs.keys() else ''
         self.commune_name = communeName if communeName else ''
         self.district_name = districtName if districtName else ''
         self.province_name = provinceName if provinceName else ''
