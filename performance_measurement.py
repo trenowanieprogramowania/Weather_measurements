@@ -3,7 +3,9 @@ import numpy as np
 
 import time
 
+from data_manipulation import data_air_quality_with_loc_method, data_air_quality_without_loc_method
 from extraction import data_extraction, generating_data_frame
+
 
 def plot_time_performance(number_of_samples: int, size_of_step: int, initial_step: int):
     final_step = initial_step + size_of_step * number_of_samples
