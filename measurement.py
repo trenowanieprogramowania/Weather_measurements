@@ -1,23 +1,26 @@
+import datetime
+
+
 class Measurement:
     registry_list = []
     headers_list = []
 
     def __init__(
-                 self,
-                 date: str,
-                 value: float,
-                 id: int,
-                 stationName: str,
-                 communeName: str,
-                 districtName: str,
-                 provinceName: str,
-                 addressStreet: str,
-                 stationId: int,
-                 paramName: str,
-                 paramFormula: str,
-                 idParam: int,
-                 **kwargs
-                ):
+            self,
+            date: str,
+            value: float,
+            id: int,
+            stationName: str,
+            communeName: str,
+            districtName: str,
+            provinceName: str,
+            addressStreet: str,
+            stationId: int,
+            paramName: str,
+            paramFormula: str,
+            idParam: int,
+            **kwargs
+    ):
         self.date = date if date else ''
         self.value = value if value else 0
         self.id = id if id else 0
@@ -32,8 +35,21 @@ class Measurement:
         self.param_name = paramName if paramName else ''
         self.param_formula = paramFormula if paramFormula else ''
         self.id_param = idParam if idParam else ''
+        self.latest = self.check_if_latest()
 
         Measurement.registry_list.append(self)
+
+    def check_if_latest(self):
+        # extracted_date = datetime.datetime.strptime(self.date, '%Y-%M-%D %H')
+
+        current_date = datetime.datetime.now()
+
+        current_date = current_date.strftime('%Y-%m-%d %H')
+
+        # print(f"current date: {current_date}")
+        # print(f"extracted date: {self.date}")
+
+        return f"{current_date}:00:00" == self.date
 
     def serialize(self):
         return self.__dict__
