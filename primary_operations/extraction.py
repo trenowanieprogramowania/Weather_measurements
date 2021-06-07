@@ -2,7 +2,7 @@ import pandas as pd
 
 import requests
 
-from measurement import Measurement
+from core_for_data.measurement import Measurement
 
 
 def data_extraction(limited_number_of_samples=False):

@@ -1,6 +1,6 @@
 import pandas as pd
 
-from data_manipulation import data_air_quality_without_loc_method
+from actions_applied_to_data.data_manipulation import data_air_quality_without_loc_method
 
 
 def present_aggregated_data(input_data_frame: pd.DataFrame):

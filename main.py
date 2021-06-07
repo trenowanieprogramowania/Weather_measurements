@@ -1,11 +1,6 @@
-from data_manipulation import data_air_quality_without_loc_method, data_air_quality_with_loc_method
+from actions_applied_to_data.data_manipulation import data_air_quality_with_loc_method
 
-from extraction import data_extraction, generating_data_frame
-
-from data_presentation import present_aggregated_data
-
-from other_api_extraction import create_temperature_column, create_pressure_column, create_humidity_column
-
+from primary_operations.extraction import data_extraction, generating_data_frame
 
 # plot_time_performance(number_of_samples=20, size_of_step=1, initial_step=1)
 
