@@ -40,14 +40,8 @@ class Measurement:
         Measurement.registry_list.append(self)
 
     def check_if_latest(self):
-        # extracted_date = datetime.datetime.strptime(self.date, '%Y-%M-%D %H')
-
         current_date = datetime.datetime.now()
-
         current_date = current_date.strftime('%Y-%m-%d %H')
-
-        # print(f"current date: {current_date}")
-        # print(f"extracted date: {self.date}")
 
         return f"{current_date}:00:00" == self.date
 

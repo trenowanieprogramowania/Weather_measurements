@@ -1,3 +1,5 @@
+import os
+
 import requests
 
 import pandas as pd
@@ -6,14 +8,10 @@ import pandas as pd
 def get_temperature_for_given_city(input_data_frame: pd.DataFrame):
     if input_data_frame['latest']:
         api_url_base = 'http://api.openweathermap.org/data/2.5/weather?'
-        api_id = 'a7d2731f602a8409c162c49eef541af8'
+        api_id = os.environ['api_id']
 
         latitude_of_city = input_data_frame['location_lat']
         longitude_of_city = input_data_frame['location_lon']
-
-        # name_of_city = input_data_frame['commune_name']
-
-        # url_of_city = api_url_base + 'q=' + name_of_city + '&appid=' + api_id
 
         url_of_city = api_url_base + "lat=" + latitude_of_city + "&" + "lon=" + longitude_of_city + "&" + "appid=" + api_id
 
@@ -28,14 +26,10 @@ def get_temperature_for_given_city(input_data_frame: pd.DataFrame):
 def get_pressure_for_given_city(input_data_frame: pd.DataFrame):
     if input_data_frame['latest']:
         api_url_base = 'http://api.openweathermap.org/data/2.5/weather?'
-        api_id = 'a7d2731f602a8409c162c49eef541af8'
+        api_id = os.environ['api_id']
 
         latitude_of_city = input_data_frame['location_lat']
         longitude_of_city = input_data_frame['location_lon']
-
-        # name_of_city = input_data_frame['commune_name']
-
-        # url_of_city = api_url_base + 'q=' + name_of_city + '&appid=' + api_id
 
         url_of_city = api_url_base + "lat=" + latitude_of_city + "&" + "lon=" + longitude_of_city + "&" + "appid=" + api_id
 
@@ -49,14 +43,10 @@ def get_pressure_for_given_city(input_data_frame: pd.DataFrame):
 def get_humidity_for_given_city(input_data_frame: pd.DataFrame):
     if input_data_frame['latest']:
         api_url_base = 'http://api.openweathermap.org/data/2.5/weather?'
-        api_id = 'a7d2731f602a8409c162c49eef541af8'
+        api_id = os.environ['api_id']
 
         latitude_of_city = input_data_frame['location_lat']
         longitude_of_city = input_data_frame['location_lon']
-
-        # name_of_city = input_data_frame['commune_name']
-
-        # url_of_city = api_url_base + 'q=' + name_of_city + '&appid=' + api_id
 
         url_of_city = api_url_base + "lat=" + latitude_of_city + "&" + "lon=" + longitude_of_city + "&" + "appid=" + api_id
 
