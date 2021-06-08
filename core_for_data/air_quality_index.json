@@ -1,0 +1,66 @@
+{
+  "Compound": {
+    "PM10": {
+      "Very bad": 150,
+      "Bad": 110,
+      "Satisfactory": 80,
+      "Moderate": 50,
+      "Good": 20,
+      "Very good": 0
+    },
+
+    "PM2.5": {
+      "Very bad": 110,
+      "Bad": 75,
+      "Satisfactory": 55,
+      "Moderate": 35,
+      "Good": 13,
+      "Very good": 0
+    },
+
+    "O3": {
+      "Very bad": 240,
+      "Bad": 180,
+      "Satisfactory": 150,
+      "Moderate": 120,
+      "Good": 70,
+      "Very good": 0
+    },
+
+    "NO2": {
+      "Very bad": 400,
+      "Bad": 200,
+      "Satisfactory": 150,
+      "Moderate": 100,
+      "Good": 40,
+      "Very good": 0
+    },
+
+    "SO2": {
+      "Very bad": 500,
+      "Bad": 350,
+      "Satisfactory": 200,
+      "Moderate": 100,
+      "Good": 50,
+      "Very good": 0
+    },
+
+    "C6H6": {
+      "Very bad": 51,
+      "Bad": 21,
+      "Satisfactory": 16,
+      "Moderate": 11,
+      "Good": 6,
+      "Very good": 0
+    },
+
+    "CO": {
+      "Very bad": 21,
+      "Bad": 15,
+      "Satisfactory": 11,
+      "Moderate": 7,
+      "Good": 3,
+      "Very good": 0
+    }
+  }
+}
