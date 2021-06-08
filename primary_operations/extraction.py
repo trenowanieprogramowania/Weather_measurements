@@ -54,15 +54,8 @@ def data_extraction(limited_number_of_samples=False):
     return list_of_data
 
 
-def generating_data_frame(list_of_objects):
+def generating_data_frame():
     headers = Measurement.generating_headers()
     data = Measurement.generating_data()
 
     return pd.DataFrame(data=data, columns=headers)
-
-
-# exemplary usage
-# def data_transformation(input_data_frame: pd.DataFrame):
-#    input_data_frame['alarm'] = input_data_frame['value'] > 10
-#
-#    return input_data_frame
