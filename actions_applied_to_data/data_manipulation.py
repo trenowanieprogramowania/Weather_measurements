@@ -146,9 +146,6 @@ def data_air_quality_with_loc_method(input_data_frame: pd.DataFrame):
     merged_table.loc[merged_table['value'] > merged_table["Bad"]
     , 'air_quality_index'] = "very bad"
 
-    # TypeError: cannot do slice indexing on Int64Index with these indexers [date] of type str
-    # merged_table = pd.concat(merged_table['date': 'latest'], merged_table['air_quality_index'])
-
     name_of_columns_for_elimination = ['Very bad', 'Bad', 'Satisfactory', 'Moderate', 'Good', 'Very good']
 
     for name_of_current_column in name_of_columns_for_elimination:
