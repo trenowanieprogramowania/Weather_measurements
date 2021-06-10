@@ -1,24 +1,10 @@
 ## Weather measurement analyser (author: trenowanieprogramowania)
 
-#intro
-- wpisac, czym jest program?
-- jaka wiedze dostarcza?
-
-#oddzielny akapit
-- instalacja
-- jakie biblioteki sa wymagane (wymienic wszystkie wymienione zaimportowane)
-- wpisac mozliwosci dopasowania programu (np. liczba pobieranych probek)
-
-#dodatkowo
-- wkleic zrzuty ekranu (z krotkimi opisami)
-
-#wazne
-- w opisie funkcjonalnym opisac dzialanie programu
-- opisac, co mozna znalezc w punkcie "other_api_extraction"
-- wspomniec funkcje flagi "latest" (wspomniec o optymalizacji) (zawrzec jako 2 punkt po "intro")
 
 ---
 ### Introduction
+- wpisac, czym jest program?
+- jaka wiedze dostarcza?
 
 Python 3 implementation of weather analysis in Poland
 based on extracted data from API stored at:
@@ -30,7 +16,16 @@ Note: Software works without GUI, in CLI mode.
 ---
 
 ### Features
+- jakie biblioteki sa wymagane (wymienic wszystkie wymienione zaimportowane)
+- wpisac mozliwosci dopasowania programu (np. liczba pobieranych probek)
 
+#dodatkowo
+- wkleic zrzuty ekranu (z krotkimi opisami)
+
+#wazne
+- w opisie funkcjonalnym opisac dzialanie programu
+- opisac, co mozna znalezc w punkcie "other_api_extraction"
+- wspomniec funkcje flagi "latest" (wspomniec o optymalizacji) (zawrzec jako 2 punkt po "intro")
 ---
 
 ### Preliminaries
