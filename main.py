@@ -1,11 +1,13 @@
 from actions_applied_to_data.data_manipulation import data_air_quality_with_loc_method,\
     data_air_quality_without_loc_method
 
+from actions_applied_to_data.data_presentation import present_aggregated_data
+
 from extra_activities.performance_measurement import plot_time_performance
 
 from primary_operations.extraction import data_extraction, generating_data_frame
 
-plot_time_performance(number_of_samples=20, size_of_step=1, initial_step=1)
+plot_time_performance(number_of_samples=5, size_of_step=1, initial_step=1)
 
 list_of_objects = data_extraction(limited_number_of_samples=1)
 
@@ -14,3 +16,5 @@ outcome_data_frame2 = generating_data_frame(list_of_objects)
 
 data_frame1 = data_air_quality_with_loc_method(outcome_data_frame1)
 data_frame2 = data_air_quality_without_loc_method(outcome_data_frame2)
+
+present_aggregated_data(data_frame2)
