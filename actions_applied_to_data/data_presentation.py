@@ -1,4 +1,5 @@
 import pandas as pd
+import matplotlib.pyplot as plt
 
 from actions_applied_to_data.data_manipulation import data_air_quality_without_loc_method
 

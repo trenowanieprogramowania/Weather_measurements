@@ -15,8 +15,11 @@ based on extracted data from API stored at:
 
 The analysis is based on the extraction of data from stations available from http://powietrze.gios.gov.pl/pjp/content/api.
 
-Given analysis includes:
-- value of chemical compounds registered within hour 
+The data are enriched by further details available from API stored at https://openweathermap.org
+
+
+Given analysis on elementary level includes:
+- value of chemical compounds registered within hour period (including updated results)
 - specific location of station with an accuracy of up to street address
 - updates of registrations per hour
 - general description of air quality based on the temporary amount of detected chemical compounds
@@ -38,7 +41,7 @@ Note: Software works without GUI, in CLI mode.
 
 3.) Collected data are processed within the structure of OOP paradigm and stored into list.
 
-4.) Processed data are converted into data frame.
+4.) Processed data are converted into data frame further manipulated by Python framework "Pandas"
 
 5.) The inclusion of additional data is performed by sending additional GET request to API stored at 
 https://openweathermap.org. The additional columns of given data frame are constructed.
@@ -50,18 +53,36 @@ https://openweathermap.org. The additional columns of given data frame are const
 ---
 
 ### Required Python packages
-- jakie biblioteki sa wymagane (wymienic wszystkie wymienione zaimportowane)
+- datetime
+- json
+- matplotlib~=3.4.2
+- numpy~=1.20.2
+- pandas~=1.2.3
+- requests~=2.25.1
 ---
 
-### Additional feature of the software
-- opisac, co mozna znalezc w punkcie "other_api_extraction"
-- wspomniec funkcje flagi "latest" (wspomniec o optymalizacji) (zawrzec jako 2 punkt po "intro")
-- wpisac mozliwosci dopasowania programu (np. liczba pobieranych probek)
+### Additional features
+a) output adjustments
+- software has a possibility of scaling number of samples extracted from main API http://powietrze.gios.gov.pl/pjp/content/api
+- the application has a feasbility of including additional columns of data extracted from API https://openweathermap.org
+  (humidity, air's temperature, average wind speed)
+  
+  
+b) optimisations
+- programme has a possibility of selecting faster version of data manipulation that relies on using "loc" method from
+  "Pandas" library (selecting data_manipulation_with_loc_method)
+- user can select which version of programme to download (with acceleration or without)
+- there is additional possibility of setting flaque "latest" to include only most updated data extracted from
+measurement points (by default, all data are extracted from API from selected number of samples)
+  
+c) visualisation of optimisation
+- software has a capability of drawing relationship between "naive" methods and those based on "Pandas" methods
+  (note: current version is restricted to comparing air quality analysis with or without "loc" method)
+- relevant functions are available in module "extra_activities"
 
----
-
-#dodatkowo
-- wkleic zrzuty ekranu (z krotkimi opisami)
+d) visualisation of extracted data
+- software owns a possibility of visualisation of extracted data
+- relevant functions are stored in module "actions_applied_to_data" (file "data_presentation")
 
 ---
 
@@ -70,6 +91,10 @@ https://openweathermap.org. The additional columns of given data frame are const
 It is assumed that user installed the following components on PC:
 1. Python version 3.7 (or higher) (for the interpreter to work)
 2. Python IDE (Visual Studio Code, Pycharm, Netbeans)
+
+
+Software works on each standard OS (Windows, Linux, Mac) - no need to specify particular dependencies for particular
+OS.
 
 ---
 
@@ -91,6 +116,8 @@ at least 17 MB of RAM.
 | 3. | From prompt/console select path of repository.|
 | 4. | Type `python3 main.py`
 
+Note: to specify parameters one should in "main.py" file modify input parameters for different outcomes to obtain (e.g. different number of samples)
+
 - Option 2
 
 | No. of step   | Description   |
@@ -99,7 +126,7 @@ at least 17 MB of RAM.
 | 2. | From prompt/console select path of repository.|
 | 3. | Type `python3 main.py`|
 
-
+---
 ### About author
-Further information about the author can be found at LinkedIn:
+Further information about the author can be found at LinkedIn platform:
 https://www.linkedin.com/in/jacek-piekut/

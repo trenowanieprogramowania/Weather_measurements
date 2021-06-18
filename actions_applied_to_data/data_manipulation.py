@@ -4,7 +4,7 @@ import json
 
 
 def investigate_air_quality(input_data_frame: pd.DataFrame):
-    with open('../core_for_data/air_quality_index.json', 'r') as investigated_source:
+    with open('core_for_data/air_quality_index.json', 'r') as investigated_source:
         investigated_compounds = json.load(investigated_source)
 
         if input_data_frame['param_formula'] in investigated_compounds["Compound"].keys():
