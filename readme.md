@@ -112,7 +112,6 @@ at least 17 MB of RAM.
 | 1. | Download the ZIP file. |
 | 2. | Extract it to a repository of desired choice. |
 | 3. | From prompt/console create virtual environment by executing the command <br> `python3 -m venv /path/to/new/virtual/environment`
- |
 | 4. | From prompt/console select path of repository.|
 | 5. | At given path of repository type in CLI <br>`pip install requirements.txt` |
 | 6. | Type `python3 main.py`
@@ -126,7 +125,6 @@ Note: to specify parameters one should in "main.py" file modify input parameters
 | 1. | In Git CLI type <br>`git clone https://github.com/trenowanieprogramowania/Weather_measurements.git` |
 | 2. | From prompt/console select path of repository.|
 | 3. | From prompt/console create virtual environment by executing the command <br> `python3 -m venv /path/to/new/virtual/environment`
- |
 | 4. | At given path of repository type in CLI <br>`pip install requirements.txt` |
 | 5. | Type `python3 main.py`|
 
