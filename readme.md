@@ -53,8 +53,6 @@ https://openweathermap.org. The additional columns of given data frame are const
 ---
 
 ### Required Python packages
-- datetime
-- json
 - matplotlib~=3.4.2
 - numpy~=1.20.2
 - pandas~=1.2.3
